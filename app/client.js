@@ -1,10 +1,11 @@
 const Twitter = require('twitter');
+const env = require('./env');
 
 const client = new Twitter({
-  consumer_key: 'dBGIPCx3bddyJSoVfiCx29Mge',
-  consumer_secret: 'zrWWqYForlM7G0Rk4KtTB6J84uoWepSUIA8NGpeNUsPLBV8zcT',
-  access_token_key: '991485732257697792-qCuiEtWMKuBCEHP6OJ2BUg9nN1vfJrb',
-  access_token_secret: 'FWPlIXsjV6yKO5saj1FvSPziU7x22uqLPB4awQBi252rf'
+  consumer_key: env.consumer_key,
+  consumer_secret: env.consumer_secret,
+  access_token_key: env.access_token_key,
+  access_token_secret: env.access_token_secret
 });
 
 module.exports = client;
