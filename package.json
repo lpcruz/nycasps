@@ -1,0 +1,14 @@
+{
+  "name": "nycasps",
+  "version": "1.0.0",
+  "description": "Get notified when nyc alternate side parking is suspended ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Laurence Cruz",
+  "license": "ISC",
+  "dependencies": {
+    "twitter": "^1.7.1"
+  }
+}
