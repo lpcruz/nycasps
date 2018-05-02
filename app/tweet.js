@@ -10,15 +10,30 @@ const data = 'nycasp'
 client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(error, tweets, response) {
   if(error) throw error;
 
-  if (tweets[0].text.indexOf('suspended') > 0) {
-    
-    client.post('statuses/update', { 
-      status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDay()}: Alternate Side Parking rules are suspended #NYCASPS`},  
-      function(error, tweet, response) {
-        if(error) throw error;
-        console.log('Parking rules are suspended. Tweet successfully sent to @nycasps');
+  const results = tweets[0].text;
+
+  switch(true) {
+    case (results.indexOf('rules are suspended today') > 0): // Happens in the morning at 7:35AM
+      client.post('statuses/update', {
+        status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDate()}: Alternate Side Parking rules are suspended today #NYCASPS`
+        }, function(error, tweet, response) {
+            if (error) throw new Error(error);
+            console.log(`Successfully sent: ${tweet.text}. Tweet successfully sent to @nycasps`);
       });
-    } else {
-      console.log('You have to move the damn car')
-    }
-  });
+      
+      break;
+
+    case (results.indexOf('rules will be suspended tomorrow') > 0): // Happens in the afternoon at 4:05PM
+      client.post('statuses/update', { 
+        status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDate() + 1}: Alternate Side Parking rules are suspended tomorrow #NYCASPS`
+        }, function(error, tweet, response) {
+          if (error) throw new Error(error);
+          console.log(`Successfully sent: ${tweet.text}. Tweet successfully sent to @nycasps`);
+        });
+
+      break;
+
+    default:
+     console.log('You have to move the damn car');
+  }    
+});
