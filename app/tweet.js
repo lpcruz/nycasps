@@ -16,7 +16,7 @@ client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(e
       status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDay()}: Alternate Side Parking rules are suspended #NYCASPS`},  
       function(error, tweet, response) {
         if(error) throw error;
-        console.log('Parking is suspended. Tweet successfully sent to @nycasps');
+        console.log('Parking rules are suspended. Tweet successfully sent to @nycasps');
       });
     } else {
       console.log('You have to move the damn car')
