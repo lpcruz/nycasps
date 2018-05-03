@@ -1,13 +1,14 @@
 const client = require('./client');
+const twitterUserAPI = require('./api/user');
+const twitterStatusAPI = require('./api/update');
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
  "Friday", "Saturday"];
 const d = new Date();
-const data = 'nycasp'
 
-client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(error, tweets, response) {
+client.get(`${twitterUserAPI.TIMELINE}${twitterUserAPI.SCREEN_NAME}${twitterUserAPI.COUNT}`, function(error, tweets, response) {
   if(error) throw error;
 
   const results = tweets[0].text;
@@ -17,7 +18,7 @@ client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(e
     // Notify when parking rules are suspended the day of 
 
     case (results.indexOf('rules are suspended today') > 0): // Happens in the morning at 7:35AM
-      client.post('statuses/update', {
+      client.post(twitterStatusAPI.UPDATE_STATUS, {
         status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDate()}: Alternate Side Parking rules are suspended today #NYCASPS`
         }, function(error, tweet, response) {
             if (error) throw new Error(error);
@@ -29,7 +30,7 @@ client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(e
     // Notify about tomorrow's suspension status  
 
     case (results.indexOf('rules will be suspended tomorrow') > 0): // Happens in the afternoon at 4:05PM
-      client.post('statuses/update', { 
+      client.post(twitterStatusAPI.UPDATE_STATUS, { 
         status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDate() + 1}: Alternate Side Parking rules are suspended tomorrow #NYCASPS`
         }, function(error, tweet, response) {
           if (error) throw new Error(error);
