@@ -13,6 +13,9 @@ client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(e
   const results = tweets[0].text;
 
   switch(true) {
+
+    // Notify when parking rules are suspended the day of 
+
     case (results.indexOf('rules are suspended today') > 0): // Happens in the morning at 7:35AM
       client.post('statuses/update', {
         status: `${weekdays[d.getDay()]}, ${monthNames[d.getMonth()]} ${d.getDate()}: Alternate Side Parking rules are suspended today #NYCASPS`
@@ -22,6 +25,8 @@ client.get(`statuses/user_timeline.json?screen_name=${data}&count=1`, function(e
       });
       
       break;
+
+    // Notify about tomorrow's suspension status  
 
     case (results.indexOf('rules will be suspended tomorrow') > 0): // Happens in the afternoon at 4:05PM
       client.post('statuses/update', { 
